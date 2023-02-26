@@ -17,11 +17,13 @@ async def register_message(dp: Dispatcher):
     )
 
     dp.register_message_handler(
+        register_url_electric, state=User.AcceptElektrika.Url_Elektrika
+    )
+
+    dp.register_message_handler(
         register_url_santehnika, state=User.AcceptSantehtika.Url_Santehtika
     )
-    dp.register_message_handler(
-        register_url_santehnika, state=User.AcceptElektrika.Url_Elektrika
-    )
+    
 
     dp.register_message_handler(
         register_cod_hanlder, state=User.Register.Cod
@@ -42,13 +44,14 @@ async def register_message(dp: Dispatcher):
     dp.register_callback_query_handler(
         status_user_callback, text='status_user'
     )
+    dp.register_callback_query_handler(
+        accept_url_elektrika_callback, text='accept_url_elektrika'
+    )
 
     dp.register_callback_query_handler(
         accept_url_santehnika_callback, text='accept_url_santehnika'
     )
-    dp.register_callback_query_handler(
-        accept_url_elektrika_callback, text='accept_url_elektrika'
-    )
+    
     dp.register_callback_query_handler(
         info_callback, text='info'
     )

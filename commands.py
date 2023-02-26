@@ -5,28 +5,54 @@ from aiogram.dispatcher import FSMContext
 from santecknika import *
 from electrika import *
 
-async def register_url_santehnika(message: Message, state= FSMContext):
+async def register_url_electric(message: Message, state= FSMContext):
     url = message.text
     data = parse_electric(url)
     text=''
+    ind=1
     for i in data[0]:
         for j in data[1]:
-            text += f'Товар: {i}, цена: {str(j)}\n'
+            text += f'{ind}) Товар: {i}, цена: {str(j)}\n'
+            ind+=1
             break
-    text += f'Цена с учётом скидки: {data[2]}'
-    await message.answer(text)
+    await message.answer(f'''Отлично!
+Вы выбрали следующие товары:
+{text}
+Итого: Ваша цена по партнерской
+программе: {data[2]} руб
+Если Вы хотите изменить или очистить
+корзину или добавить в неё
+осветительные приборы - нажмите
+кнопку "Изменить корзину"
+Если Вы хотите заказать выбранные
+заказы нажмите кнопку "Оформить заказ"
+Если Вы хотите посмотреть свою корзину -
+нажмите "Показать корзину"''')
     await state.reset_state()
 
 async def register_url_santehnika(message: Message, state= FSMContext):
     url = message.text
     data = parse_santexnic(url)
     text=''
+    ind=1
     for i in data[0]:
         for j in data[1]:
-            text += f'Товар: {str(i)}, цена: {str(j)}\n'
+            text += f'{ind}) Товар: {str(i)}, цена: {str(j)}\n'
+            ind+=1
             break
-    text += f'Цена с учётом скидки: {str(data[2])}'
-    await message.answer(text)
+    await message.answer(f'''Отлично!
+Вы выбрали следующие товары:
+{text}
+Итого: Ваша цена по партнерской
+программе: {data[2]} руб
+Если Вы хотите изменить или очистить
+корзину или добавить в неё
+осветительные приборы - нажмите
+кнопку "Изменить корзину"
+Если Вы хотите заказать выбранные
+заказы нажмите кнопку "Оформить заказ"
+Если Вы хотите посмотреть свою корзину -
+нажмите "Показать корзину"''')
     await state.reset_state()
 
 async def menu_handler(message: Message):
