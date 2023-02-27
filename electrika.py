@@ -10,7 +10,7 @@ def parse_electric(url, sale=5):
 
     prices_ = soup.find_all('div', class_='basket__p')
     names_ = soup.find_all('div', class_='basket__name js-do')
-    prices = [i.text for i in prices_]
+    prices = [i.text.replace(' ','').replace('₽', '') for i in prices_]
     names = [i.text for i in names_]
     for price in prices_:
         result_price += int(price.text.replace(' ','').replace('₽', ''))
