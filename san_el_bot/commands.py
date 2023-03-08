@@ -4,17 +4,19 @@ from db import *
 from aiogram.dispatcher import FSMContext
 from santecknika import *
 from electrika import *
+from set_order.upload_order_to_SPM import *
 
 async def register_url_electric(message: Message, state= FSMContext):
     url = message.text
     data = parse_electric(url)
     text=''
     ind=1
+    cart = {}
     for i in data[0]:
-        for j in data[1]:
-            text += f'{ind}) Товар: {i}, цена: {str(j)}\n'
+            text += f'{ind}) Товар: {i}, цена: {data[1][ind-1]}\n'
+            cart[i] = data[1][ind-1]
             ind+=1
-            break
+    await add_cart_elek(message.from_user.id, cart)
     await message.answer(f'''Отлично!
 Вы выбрали следующие товары:
 {text}
@@ -28,6 +30,7 @@ async def register_url_electric(message: Message, state= FSMContext):
 заказы нажмите кнопку "Оформить заказ"
 Если Вы хотите посмотреть свою корзину -
 нажмите "Показать корзину"''')
+    await set_task()
     await state.reset_state()
 
 async def register_url_santehnika(message: Message, state= FSMContext):
@@ -35,11 +38,12 @@ async def register_url_santehnika(message: Message, state= FSMContext):
     data = parse_santexnic(url)
     text=''
     ind=1
+    cart = {}
     for i in data[0]:
-        for j in data[1]:
-            text += f'{ind}) Товар: {str(i)}, цена: {str(j)}\n'
+            text += f'{ind}) Товар: {i}, цена: {data[1][ind-1]}\n'
+            cart[i] = data[1][ind-1]
             ind+=1
-            break
+    await add_cart_santeh(message.from_user.id, cart)
     await message.answer(f'''Отлично!
 Вы выбрали следующие товары:
 {text}
